@@ -16,11 +16,23 @@ class BoxStorage
 public:
     BoxStorage();
     
-    MakeStorage(istream& cin);
+    void MakeStorage(istream& cin);
     
+    Coordinates& BestPosition();
     
+    int getLineCount(int x, int y);
+    
+    short getMast(int x, int y);
 
 private:
+    struct Coordinates {
+        Coordinates(int x, int y) {
+            X = x;
+            Y = y;
+        }
+        int X;
+        int Y;
+    }    
     short _storage[GRID_HEIGHT][GRID_WIDTH];
     short int BoxCounts[GRID_HEIGHT][GRID_WIDTH];
 };
