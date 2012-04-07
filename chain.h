@@ -17,7 +17,6 @@ public:
     bool isOpenLoop() const;
     bool isClosedLoop() const;
     int length() const;
-    int chainPointCount();
 private:
     std::vector<Coordinate> links;
     short _isLoop;

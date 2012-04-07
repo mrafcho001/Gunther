@@ -56,3 +56,4 @@ int Chain::length() const
     }
     return links.size();
 }
+
