@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 {
     BoxStorage board;
     
+    // Use this variable??
     int playerNumber;
     cin >> playerNumber;
     
