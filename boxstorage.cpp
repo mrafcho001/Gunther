@@ -4,9 +4,8 @@ BoxStorage::BoxStorage()
 {
 }
 
-void BoxStorage::MakeStorage(istream& cin)
+void BoxStorage::MakeStorage(std::istream& cin)
 {
-    int input;
     int tempStorage[GRID_HEIGHT][GRID_WIDTH];
     
     for (int i=0; i<(2*GRID_HEIGHT+1); i++) {
@@ -43,27 +42,35 @@ void BoxStorage::MakeStorage(istream& cin)
     }
 }
 
-Coordinates& BoxStorage::BestPosition()
+Coordinates BoxStorage::BestPosition()
 {
     for (int i=0; i<GRID_HEIGHT; i++) {
         for (int j=0; i<GRID_WIDTH; j++) {
             if (BoxCounts[i][j] < 2) {
-                if (!(_storage & SIDE_LEFT)) {
+                if (!(_storage[i][j] & SIDE_LEFT)) {
                     if ( (j==0) || ((j>0) && (BoxCounts[i][j-1]<2)) )
-                        return Coordinates(2*i+1, 2*j);
-                }
-                if (!(_storage & SIDE_UP)) {
-                    if ( (i==0) || ((i>0) && (BoxCounts[i-1][j]<2)) )
-                        return Coordinates(2*i, 2*j+1);
-                }
-                if (!(_storage & SIDE_RIGHT)) {
-                    if ( (j=GRID_WIDTH-1) || ((j<GRID_WIDTH-1) && (BoxCounts[i][j+1]<2)) ) {                              
-                        return Coordinates(2*i+1, 2*j+2);
+                    {
+                        Coordinates value(2*i+1, 2*j);
+                        return value;
                     }
                 }
-                if (!(_storage & SIDE_DOWN)) {
+                if (!(_storage[i][j] & SIDE_UP)) {
+                    if ( (i==0) || ((i>0) && (BoxCounts[i-1][j]<2)) )
+                    {
+                        Coordinates value(2*i, 2*j+1);
+                        return value;
+                    }
+                }
+                if (!(_storage[i][j] & SIDE_RIGHT)) {
+                    if ( (j=GRID_WIDTH-1) || ((j<GRID_WIDTH-1) && (BoxCounts[i][j+1]<2)) ) {
+                        Coordinates value(2*i+1, 2*j+2);
+                        return value;
+                    }
+                }
+                if (!(_storage[i][j] & SIDE_DOWN)) {
                     if ( (i=GRID_HEIGHT-1) || ((i<GRID_HEIGHT-1) && (BoxCounts[i+1][j]<2)) ) {
-                        return Coordinates(2*i+2, 2*j+1);
+                        Coordinates value(2*i+2, 2*j+1);
+                        return value;
                     }
                 }
             }
@@ -77,6 +84,4 @@ int BoxStorage::getLineCount(int x, int y)
 {
     return BoxCounts[x][y];
 }
-
-short BoxSt
 
