@@ -38,7 +38,7 @@ BoxStorage::MakeStorage(istream& cin)
     }
 }
 
-BoxStorage::BestCoordinates()
+Coordinates& BoxStorage::BestPosition()
 {
     for (int i=0; i<GRID_HEIGHT; i++) {
         for (int j=0; i<GRID_WIDTH; j++) {
