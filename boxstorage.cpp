@@ -7,7 +7,7 @@ BoxStorage::BoxStorage()
 void BoxStorage::MakeStorage(std::istream& cin)
 {
     // Temporary store input data
-    int tempStorage[GRID_HEIGHT][GRID_WIDTH];
+    int tempStorage[2*GRID_HEIGHT+1][2*GRID_WIDTH+1];
     
     for (int i=0; i<(2*GRID_HEIGHT+1); i++) {
         for (int j=0; j<(2*GRID_WIDTH+1); j++) {

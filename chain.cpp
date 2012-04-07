@@ -9,15 +9,15 @@ void Chain::AddVertex(Coordinate &vertex)
     links.push_back(vertex);
 }
 
-bool Chain::isLoop() const
+bool Chain::isLoop()
 {
     if (_isLoop == -1)
     {
         _isLoop = 0;
         
-        for (int i=links.size()-1; i>0; i--) {
+        for (int i=int(links.size()-1); i>0; i--) {
             if ((links[i].x == links[0].x) && (links[i].y == links[0].y)) {
-                isLoop == 1;
+                _isLoop = 1;
                 break;
             }
         }
@@ -26,7 +26,7 @@ bool Chain::isLoop() const
     return _isLoop;
 }
 
-bool Chain::isOpenLoop() const
+bool Chain::isOpenLoop()
 {
     if (_loopType == -1)
     {
@@ -34,7 +34,7 @@ bool Chain::isOpenLoop() const
         
         for (int i=0; i<links.size(); i++) {
             if (links[i].branch_point) {
-                _loopType == 0;
+                _loopType = 0;
             }
         }
     }
@@ -42,7 +42,7 @@ bool Chain::isOpenLoop() const
     return (_loopType == 0);
 }
 
-bool Chain::isClosedLoop() const
+bool Chain::isClosedLoop()
 {
     return !this->isOpenLoop();
 }
@@ -52,8 +52,8 @@ int Chain::length() const
     if(links.size() > 0)
     {
         if(_isLoop)
-            return links.size()-1;
+            return int(links.size()-1);
     }
-    return links.size();
+    return int(links.size());
 }
 

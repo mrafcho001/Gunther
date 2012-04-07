@@ -1,6 +1,8 @@
 #ifndef CHAIN_H
 #define CHAIN_H
 
+#include <vector>
+
 struct Coordinate
 {
     short x;
@@ -13,9 +15,9 @@ class Chain
 public:
     Chain();
     void AddVertex(Coordinate &vertex);
-    bool isLoop() const;
-    bool isOpenLoop() const;
-    bool isClosedLoop() const;
+    bool isLoop();
+    bool isOpenLoop();
+    bool isClosedLoop();
     int length() const;
 private:
     std::vector<Coordinate> links;
