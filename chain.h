@@ -1,6 +1,13 @@
 #ifndef CHAIN_H
 #define CHAIN_H
 
+struct Coordinate
+{
+    short x;
+    short y;
+    bool branch_point;  //True if the point is the point of a 3 way branch
+};
+
 class Chain
 {
 public:
