@@ -1,43 +1,6 @@
 #include "boxgraph.h"
 
-Chain::Chain() : _isLoop(-1)
-{
-}
 
-void Chain::AddVertex(Coordinate &vertex)
-{
-    links.push_back(vertex);
-}
-
-bool Chain::isLoop() const
-{
-    if(_isLoop == -1)
-    {
-        //Calculate
-    }
-
-    return _isLoop;
-}
-
-bool Chain::isOpenLoop() const
-{
-    return (_loopType == 0);
-}
-
-bool Chain::isClosedLoop() const
-{
-    return (_loopType == 1);
-}
-
-int Chain::length() const
-{
-    if(links.size() > 0)
-    {
-        if(links[0].branch_point)
-            return links.size()-1;
-    }
-    return links.size();
-}
 
 BoxGraph::BoxGraph() : _graph(NULL), _bestMoveX(-1), _bestMoveY(-1)
 {
@@ -49,8 +12,40 @@ BoxGraph::BoxGraph(BoxStorage* bs) : _graph(bs), _bestMoveX(-1), _bestMoveY(-1)
 
 void BoxGraph::SelectBestMove()
 {
+    //Determine if there are any 3 sides boxes:
+    for(int row = 0; row < GRID_HEIGHT; row++)
+    {
+        for(int col = 0; col < GRID_WIDTH; col++)
+        {
+            if(_graph->getLineCount(row, col) == 3)
+            {
+                //Add 3 sided chain
+                Chain newChain;
+                createFollowChain(row, col, newChain);
+                chains.push_back(newChain);
+            }
+        }
+    }
+    if(chains.size() > 0)
+    {
+        Coordinate move;
+        int max_points = -1;
+        //Choose one of 3 sided boxes
+        for(int i = 0; i< chains.size(); i++)
+        {
+            move = chains[i];
+            max_points = chainPointCount();
+        }
+
+        _bestMoveX = move.x;
+        _bestMoveY = move.y;
+        return;
+    }
+
+    // else find best move
+
     //Seperate Chains
-    bool visited[GRID_HEIGHT][GRID_WIDTH] = {{false}};
+    initVisited();
 
     for(int row = 0; row < GRID_HEIGHT; row++)
     {
@@ -62,24 +57,24 @@ void BoxGraph::SelectBestMove()
 
             //Not visited
 
+            visited[row][col] = true;
 
-            if(_graph->getLineCount(row, col) == 4)
-            {
-                //Taken square
-                visited[row][col] = true;
-            }
-            else if(_graph->getLineCount(row, col) == 3)
+            if(_graph->getLineCount(row, col) == 3)
             {
                 //Start of a chain
                 //MUST FOLLOW THIS CHAIN!!!!!!!!!!!!
+                //SHould be done already
             }
             else if(_graph->getLineCount(row, col) == 2)
             {
-                //Chain found, point could be mid chain
+                std::vector<Chain> newChains = createChains(row, col);
+
+                for(int i = 0; i < newChains.size(); i++)
+                    chains.push_back(newChains[i]);
             }
             else if(_graph->getLineCount(row, col) == 1)
             {
-
+                //Shitfest
             }
         }
     }

@@ -16,20 +16,7 @@ struct Coordinate
     bool branch_point;  //True if the point is the point of a 3 way branch
 };
 
-class Chain
-{
-public:
-    Chain();
-    void AddVertex(Coordinate &vertex);
-    bool isLoop() const;
-    bool isOpenLoop() const;
-    bool isClosedLoop() const;
-    int length() const;
-private:
-    std::vector<Coordinate> links;
-    short _isLoop;
-    short _loopType;
-};
+
 
 class BoxGraph
 {
@@ -45,8 +32,12 @@ public:
 
 
 private:
+    void initVisited();
+    void createFollowChain(int x, int y, Chain &chain);
+    std::vector<Chain> createChains(int x, int y);
     BoxStorage *_graph;
     std::vector<Chain> chains;
+    bool visited[GRID_HEIGHT][GRID_WIDTH];
     int _bestMoveX;
     int _bestMoveY;
 };
