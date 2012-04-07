@@ -10,6 +10,7 @@
 #define SIDE_UP      0b0010
 #define SIDE_RIGHT   0b0100
 #define SIDE_DOWN    0b1000
+
 struct Coordinates {
     Coordinates(int x, int y) {
         X = x;
