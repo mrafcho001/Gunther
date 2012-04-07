@@ -37,3 +37,4 @@ BoxStorage::MakeStorage(istream& cin)
         }
     }
 }
+

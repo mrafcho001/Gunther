@@ -17,10 +17,12 @@ public:
     BoxStorage();
     
     MakeStorage(istream& cin);
+    
+    
 
 private:
     short _storage[GRID_HEIGHT][GRID_WIDTH];
-
+    short int BoxCounts[GRID_HEIGHT][GRID_WIDTH];
 };
 
 #endif // BOXSTORAGE_H
