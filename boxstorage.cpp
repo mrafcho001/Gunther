@@ -4,7 +4,7 @@ BoxStorage::BoxStorage()
 {
 }
 
-BoxStorage::MakeStorage(istream& cin)
+void BoxStorage::MakeStorage(istream& cin)
 {
     int input;
     int tempStorage[GRID_HEIGHT][GRID_WIDTH];
@@ -18,21 +18,26 @@ BoxStorage::MakeStorage(istream& cin)
     for (int i=0; i<GRID_HEIGHT; i++) {
         for (int j=0; j<GRID_WIDTH; j++) {
             _storage[i][j] = 0b0000;
+            BoxCounts[i][j] = 0;
             
             if (tempStorage[2*i+1][2*j] == 1) {
                 _storage[i][j] = _storage[i][j] | SIDE_LEFT;
+                BoxCounts[i][j]++;
             }
             
             if (tempStorage[2*i][2*j+1] == 1) {
                 _storage[i][j] = _storage[i][j] | SIDE_UP;
+                BoxCounts[i][j]++;
             }
          
             if (tempStorage[2*i+1][2*j+2] == 1) {
                 _storage[i][j] = _storage[i][j] | SIDE_RIGHT;
+                BoxCounts[i][j]++;
             }
             
             if (tempStorage[2*i+2][2*j+1] == 1) {
                 _storage[i][j] = _storage[i][j] | SIDE_DOWN;
+                BoxCounts[i][j]++;
             }
         }
     }
@@ -67,4 +72,11 @@ Coordinates& BoxStorage::BestPosition()
     
     return Coordinates(-1, -1);
 }
+
+int BoxStorage::getLineCount(int x, int y)
+{
+    return BoxCounts[x][y];
+}
+
+short BoxSt
 

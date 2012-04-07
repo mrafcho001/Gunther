@@ -22,7 +22,7 @@ public:
     
     int getLineCount(int x, int y);
     
-    short getMast(int x, int y);
+    short getMask(int x, int y);
 
 private:
     struct Coordinates {
