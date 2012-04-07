@@ -85,3 +85,11 @@ int BoxStorage::getLineCount(int x, int y)
     return BoxCounts[x][y];
 }
 
+<<<<<<< HEAD
+=======
+short BoxStorage::getMask(int x, int y)
+{
+    return 
+}
+
+>>>>>>> Added BoxStorage
