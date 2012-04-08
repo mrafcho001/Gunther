@@ -78,7 +78,7 @@ Coordinates BoxStorage::BestPosition()
                 // No right side
                 if (!(_storage[i][j] & SIDE_RIGHT)) {
                     // Box to right has fewer than 2 edges
-                    if ( (j=GRID_WIDTH-1) || ((j<GRID_WIDTH-1) && (BoxCounts[i][j+1]<2)) ) {
+                    if ( (j==GRID_WIDTH-1) || ((j<GRID_WIDTH-1) && (BoxCounts[i][j+1]<2)) ) {
                         Coordinates value(2*i+1, 2*j+2);
                         return value;
                     }
@@ -87,7 +87,7 @@ Coordinates BoxStorage::BestPosition()
                 // No down side
                 if (!(_storage[i][j] & SIDE_DOWN)) {
                     // Lower box has fewer than 2 edges
-                    if ( (i=GRID_HEIGHT-1) || ((i<GRID_HEIGHT-1) && (BoxCounts[i+1][j]<2)) ) {
+                    if ( (i==GRID_HEIGHT-1) || ((i<GRID_HEIGHT-1) && (BoxCounts[i+1][j]<2)) ) {
                         Coordinates value(2*i+2, 2*j+1);
                         return value;
                     }
