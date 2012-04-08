@@ -57,3 +57,32 @@ int Chain::length() const
     return int(links.size());
 }
 
+Coordinate Chain::position()
+{
+    return links[0];
+}
+
+short Chain::direction()
+{
+    if(links[1].x > links[0].x)
+    {
+        return SIDE_RIGHT;
+    }
+    if(links[1].x < links[0].x)
+    {
+        return SIDE_LEFT;
+    }
+    if(links[1].y > links[0].y)
+    {
+        return SIDE_DOWN;
+    }
+    if(links[1].y < links[0].y)
+    {
+        return SIDE_UP;
+    }
+}
+
+void Chain::removeFront()
+{
+    links.erase(links.begin());
+}

@@ -19,7 +19,12 @@ int main(int argc, char *argv[])
     Coordinates coordinate = board.BestPosition();
     if ( (coordinate.X != -1) && (coordinate.Y != -1) ) {
         cout << coordinate.X << ' ' << coordinate.Y << endl;
-        return 0;
+    }
+    else
+    {
+        BoxGraph graph(&board);
+
+        graph.SelectBestMove();
     }
     
     return 0;
