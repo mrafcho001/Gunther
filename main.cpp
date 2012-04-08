@@ -9,18 +9,12 @@ int main(int argc, char *argv[])
 {
     BoxStorage board;
 
-    ifstream inFile("sample.txt");
-    if(!inFile.is_open())
-    {
-        cout << "SHIT WENT WERONG";
-    }
-    
     // Use this variable??
     int playerNumber;
-    inFile >> playerNumber;
+    cin >> playerNumber;
     
     // Populate board
-    board.MakeStorage(inFile);
+    board.MakeStorage(cin);
     
     // If edge exists that does not give adjacent boxes 3 edges, claim it!
     Coordinates coordinate = board.BestPosition();
