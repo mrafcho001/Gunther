@@ -29,9 +29,9 @@ public:
     
     Coordinates BestPosition();
     
-    int getLineCount(int x, int y);
+    int getLineCount(int row, int col);
     
-    short getMask(int x, int y);
+    short getMask(int row, int col);
 
 private:
 

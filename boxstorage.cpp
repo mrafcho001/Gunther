@@ -51,7 +51,7 @@ void BoxStorage::MakeStorage(std::istream& cin)
 Coordinates BoxStorage::BestPosition()
 {
     for (int i=0; i<GRID_HEIGHT; i++) {
-        for (int j=0; i<GRID_WIDTH; j++) {
+        for (int j=0; j<GRID_WIDTH; j++) {
             // Box has fewer than 2 edges
             if (BoxCounts[i][j] < 2) {
                 
@@ -99,12 +99,12 @@ Coordinates BoxStorage::BestPosition()
     return Coordinates(-1, -1);  // No position
 }
 
-int BoxStorage::getLineCount(int x, int y)
+int BoxStorage::getLineCount(int row, int col)
 {
-    return BoxCounts[x][y];
+    return BoxCounts[row][col];
 }
 
-short BoxStorage::getMask(int x, int y)
+short BoxStorage::getMask(int row, int col)
 {
-    return _storage[x][y];
+    return _storage[row][col];
 }

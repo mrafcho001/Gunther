@@ -14,12 +14,13 @@ bool Chain::isLoop()
     if (_isLoop == -1)
     {
         _isLoop = 0;
-        
-        for (int i=int(links.size()-1); i>0; i--) {
-            if ((links[i].x == links[0].x) && (links[i].y == links[0].y)) {
-                _isLoop = 1;
-                break;
-            }
+        int dx = links[links.size()-1].x - links[0].x;
+        if(dx < 0) dx = -dx;
+        int dy = links[links.size()-1].y - links[0].y;
+        if(dy < 0) dy = -dy;
+        if ( dx+dy == 1)
+        {
+            _isLoop = 1;
         }
     }
 
@@ -51,7 +52,7 @@ int Chain::length() const
 {
     if(links.size() > 0)
     {
-        if(_isLoop)
+        if(_isLoop >= 0)
             return int(links.size()-1);
     }
     return int(links.size());

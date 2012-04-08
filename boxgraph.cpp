@@ -1,5 +1,5 @@
 #include "boxgraph.h"
-
+#include <iostream>
 
 
 BoxGraph::BoxGraph() : _graph(NULL), _bestMoveX(-1), _bestMoveY(-1)
@@ -89,8 +89,8 @@ void BoxGraph::SelectBestMove()
     }
 
     //Decide best chain?
-    int best_chain_pos = 10000;
-    int best_chain_score = -1;
+    int best_chain_pos = -1;
+    int best_chain_score = 10000;
     for(int i=0; i < chains.size(); i ++)
     {
         if(chains[i].length() < best_chain_score)
@@ -100,6 +100,7 @@ void BoxGraph::SelectBestMove()
         }
     }
 
+    std::cout << "Chain size: " << chains.size() << std::endl;
     _bestMoveX = chains[best_chain_pos].position().x;
     _bestMoveY = chains[best_chain_pos].position().y;
 
@@ -144,21 +145,21 @@ void BoxGraph::createChains(int row, int col)
 {
     Chain chain;
     Coordinate point(col, row);
-    short mask = _graph->getMask(col, row);
-    if(_graph->getLineCount(col, row) >= 2)
+    short mask = _graph->getMask(row, col);
+    if(_graph->getLineCount(row, col) >= 2)
     {
         point.branch_point = false;
         chain.AddVertex(point);
         if((mask&SIDE_LEFT) == 0 && col > 0 && !visited[row][col-1])
             visit(row, col-1, &chain);
         if((mask&SIDE_RIGHT) == 0 && col+1 < GRID_WIDTH && !visited[row][col+1])
-            visit(row, col, &chain);
+            visit(row, col+1, &chain);
         if((mask&SIDE_DOWN) == 0 && row+1 < GRID_HEIGHT && !visited[row+1][col])
             visit(row+1, col, &chain);
         if((mask&SIDE_UP) == 0 && row > 0 && !visited[row-1][col])
             visit(row-1, col, &chain);
     }
-    else if(_graph->getLineCount(col, row) == 1)
+    else if(_graph->getLineCount(row, col) == 1)
     {
         if((mask&SIDE_LEFT) == 0 && col >= 0 && !visited[row][col-1])
         {
@@ -226,7 +227,7 @@ void BoxGraph::visit(int row, int col, Chain *chain)
     Coordinate co;
     co.x = col;
     co.y = row;
-    if(_graph->getLineCount(col, row) < 1)
+    if(_graph->getLineCount(row, col) <= 1)
     {
         co.branch_point = true;
         if(chain->length() > 0)
@@ -240,7 +241,7 @@ void BoxGraph::visit(int row, int col, Chain *chain)
 
     chain->AddVertex(co);
 
-    short mask = _graph->getMask(col, row);
+    short mask = _graph->getMask(row, col);
 
     if((mask&SIDE_LEFT) == 0 && col >= 0 && !visited[row][col-1])
     {
@@ -269,4 +270,9 @@ void BoxGraph::initVisited()
             visited[i][j] = false;
         }
     }
+}
+
+int BoxGraph::BestMoveDir() const
+{
+    return _bestMoveDir;
 }

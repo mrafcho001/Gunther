@@ -21,6 +21,7 @@ public:
     void SelectBestMove();
     int BestMoveX() const;
     int BestMoveY() const;
+    int BestMoveDir() const;
 
     friend std::ostream &operator<<(std::ostream& out, const BoxGraph &bg);
 
