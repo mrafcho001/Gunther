@@ -9,12 +9,18 @@ int main(int argc, char *argv[])
 {
     BoxStorage board;
 
+    ifstream inFile("sample.txt");
+    if(!inFile.is_open())
+    {
+        cout << "SHIT WENT WERONG";
+    }
+    
     // Use this variable??
     int playerNumber;
-    cin >> playerNumber;
+    inFile >> playerNumber;
     
     // Populate board
-    board.MakeStorage(cin);
+    board.MakeStorage(inFile);
     
     // If edge exists that does not give adjacent boxes 3 edges, claim it!
     Coordinates coordinate = board.BestPosition();
@@ -26,8 +32,8 @@ int main(int argc, char *argv[])
         BoxGraph graph(&board);
 
         graph.SelectBestMove();
-        int x = graph.BestMoveX();
-        int y = graph.BestMoveY();
+        int x = graph.BestMoveCol();
+        int y = graph.BestMoveRow();
 
         int col = x*2+1;
         int row = y*2+1;

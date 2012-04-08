@@ -19,14 +19,15 @@ public:
     BoxGraph(BoxStorage* bs);
 
     void SelectBestMove();
-    int BestMoveX() const;
-    int BestMoveY() const;
+    int BestMoveCol() const;
+    int BestMoveRow() const;
     int BestMoveDir() const;
 
     friend std::ostream &operator<<(std::ostream& out, const BoxGraph &bg);
 
 
 private:
+    void fixDirection();
     void initVisited();
     void createFollowChain(int x, int y, Chain &chain);
     void createChains(int row, int col);
@@ -34,8 +35,8 @@ private:
     BoxStorage *_graph;
     std::vector<Chain> chains;
     bool visited[GRID_HEIGHT][GRID_WIDTH];
-    int _bestMoveX;
-    int _bestMoveY;
+    int _bestMoveCol;
+    int _bestMoveRow;
     short _bestMoveDir;
 };
 

@@ -65,6 +65,9 @@ Coordinate Chain::position()
 
 short Chain::direction()
 {
+    if(links.size() == 1)
+        return 0;
+
     if(links[1].x > links[0].x)
     {
         return SIDE_RIGHT;
@@ -81,6 +84,7 @@ short Chain::direction()
     {
         return SIDE_UP;
     }
+    return 0;
 }
 
 void Chain::removeFront()

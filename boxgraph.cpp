@@ -2,11 +2,11 @@
 #include <iostream>
 
 
-BoxGraph::BoxGraph() : _graph(NULL), _bestMoveX(-1), _bestMoveY(-1)
+BoxGraph::BoxGraph() : _graph(NULL), _bestMoveCol(-1), _bestMoveRow(-1)
 {
 }
 
-BoxGraph::BoxGraph(BoxStorage* bs) : _graph(bs), _bestMoveX(-1), _bestMoveY(-1)
+BoxGraph::BoxGraph(BoxStorage* bs) : _graph(bs), _bestMoveCol(-1), _bestMoveRow(-1)
 {
 }
 
@@ -49,8 +49,10 @@ void BoxGraph::SelectBestMove()
             }
         }
 
-        _bestMoveX = move.x;
-        _bestMoveY = move.y;
+        _bestMoveCol = move.x;
+        _bestMoveRow = move.y;
+        fixDirection();
+
         return;
     }
 
@@ -101,38 +103,45 @@ void BoxGraph::SelectBestMove()
     }
 
     std::cout << "Chain size: " << chains.size() << std::endl;
-    _bestMoveX = chains[best_chain_pos].position().x;
-    _bestMoveY = chains[best_chain_pos].position().y;
+    _bestMoveCol = chains[best_chain_pos].position().x;
+    _bestMoveRow = chains[best_chain_pos].position().y;
 
     _bestMoveDir = chains[best_chain_pos].direction();
 
-    if(_bestMoveDir==SIDE_LEFT)
+    if(_bestMoveDir == 0)
     {
-        _bestMoveDir = SIDE_RIGHT;
+        fixDirection();
     }
-    else if(_bestMoveDir == SIDE_RIGHT)
+    else
     {
-        _bestMoveDir = SIDE_LEFT;
-    }
-    else if(_bestMoveDir == SIDE_DOWN)
-    {
-        _bestMoveDir = SIDE_UP;
-    }
-    else if(_bestMoveDir == SIDE_UP)
-    {
-        _bestMoveDir = SIDE_DOWN;
+        if(_bestMoveDir==SIDE_LEFT)
+        {
+            _bestMoveDir = SIDE_RIGHT;
+        }
+        else if(_bestMoveDir == SIDE_RIGHT)
+        {
+            _bestMoveDir = SIDE_LEFT;
+        }
+        else if(_bestMoveDir == SIDE_DOWN)
+        {
+            _bestMoveDir = SIDE_UP;
+        }
+        else if(_bestMoveDir == SIDE_UP)
+        {
+            _bestMoveDir = SIDE_DOWN;
+        }
     }
 
 }
 
-int BoxGraph::BestMoveX() const
+int BoxGraph::BestMoveCol() const
 {
-    return 0;
+    return _bestMoveCol;
 }
 
-int BoxGraph::BestMoveY() const
+int BoxGraph::BestMoveRow() const
 {
-    return 0;
+    return _bestMoveRow;
 }
 
 std::ostream &operator<<(std::ostream& out, const BoxGraph &bg)
@@ -158,6 +167,7 @@ void BoxGraph::createChains(int row, int col)
             visit(row+1, col, &chain);
         if((mask&SIDE_UP) == 0 && row > 0 && !visited[row-1][col])
             visit(row-1, col, &chain);
+        chains.push_back(chain);
     }
     else if(_graph->getLineCount(row, col) == 1)
     {
@@ -275,4 +285,16 @@ void BoxGraph::initVisited()
 int BoxGraph::BestMoveDir() const
 {
     return _bestMoveDir;
+}
+
+void BoxGraph::fixDirection()
+{
+    if((_graph->getMask(_bestMoveRow,_bestMoveCol)&SIDE_LEFT) == 0)
+        _bestMoveDir = SIDE_LEFT;
+    else if((_graph->getMask(_bestMoveRow,_bestMoveCol)&SIDE_RIGHT) == 0)
+        _bestMoveDir = SIDE_RIGHT;
+    else if((_graph->getMask(_bestMoveRow,_bestMoveCol)&SIDE_UP) == 0)
+        _bestMoveDir = SIDE_UP;
+    else if((_graph->getMask(_bestMoveRow,_bestMoveCol)&SIDE_DOWN) == 0)
+        _bestMoveDir = SIDE_DOWN;
 }
